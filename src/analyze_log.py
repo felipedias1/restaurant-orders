@@ -9,7 +9,7 @@ def analyze_log(path_to_file):
         arnaldo = data[
             (data.nome == "arnaldo") & (data.pedido == "hamburguer")
         ].value_counts(["pedido"]).max()
-        joao_pedidos = set(data["pedido"].unique())- (
+        joao_pedidos = set(data["pedido"].unique()) - (
             set(data.pedido.loc[data.nome == "joao"].unique()))
         joao_dias = set(data["dia"].unique()) - (
             set(data.dia.loc[data.nome == "joao"].unique()))
