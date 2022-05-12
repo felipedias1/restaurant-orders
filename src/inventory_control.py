@@ -1,3 +1,5 @@
+from collections import Counter
+
 class InventoryControl:
     INGREDIENTS = {
         'hamburguer': ['pao', 'carne', 'queijo'],
@@ -16,10 +18,22 @@ class InventoryControl:
     }
 
     def __init__(self):
-        pass
+        self.orders = []
+        self.all_ingredients = []
 
     def add_new_order(self, customer, order, day):
-        pass
+        return self.orders.append(
+            {"customer": customer, "order": order, "day": day}
+        )
 
     def get_quantities_to_buy(self):
-        pass
+        ingredients_to_buy = []
+        self.all_ingredients.extend(self.INGREDIENTS.values())
+        # https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-a-list-of-lists
+        self.all_ingredients = set(item for sublist in self.all_ingredients for item in sublist)
+        for order in self.orders:
+            ingredients_to_buy.extend(self.INGREDIENTS[order["order"]])
+        ingredients_to_buy = dict(Counter(ingredients_to_buy))
+        self.all_ingredients = dict.fromkeys(self.all_ingredients, 0)
+        self.all_ingredients.update(ingredients_to_buy)
+        return self.all_ingredients
